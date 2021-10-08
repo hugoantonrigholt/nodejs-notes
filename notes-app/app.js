@@ -9,9 +9,9 @@ yargs.version('1.1.0')
 // Create add command
 yargs.command({
     command: 'list',
-    describe: 'List notes',
+    describe: 'List your notes',
     handler() {
-        notes.listNotes
+        notes.listNotes()
     }
 })
 
@@ -57,7 +57,7 @@ yargs.command({
     command: 'list',
     describe: 'Listing all notes',
     handler(argv) {
-        console.log(chalk.bgYellow.black('Listing all notes'))
+        console.log(chalk.yellow.black('Listing all notes'))
         notes.listNotes(argv.title)
     }
 })
@@ -66,8 +66,15 @@ yargs.command({
 yargs.command({
     command: 'read',
     describe: 'Reading a note',
-    handler() {
-        console.log('Reading the note')
+    builder: {
+      title: {
+        describe: 'Note title',
+        demandOption: true,
+        type: 'string'
+      }
+    },
+    handler(argv) {
+        notes.readNote(argv.title)
     }
 })
 
